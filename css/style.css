@@ -1,0 +1,88 @@
+
+header {
+  display: inline-block;
+  position: fixed;
+  background: bisque;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  display: inline-block;
+  margin: 0px 0px;
+  padding: 15px 0px;
+}
+
+#logo {
+  width: 5%;
+  margin-left: 3%;
+}
+
+header section {
+  display: inline-block;
+  line-height: 1em;
+  vertical-align: top;
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+h1 {
+  font-family: 'Homemade Apple', 'Allura', cursive;
+  font-size: 20px;
+}
+
+h2 {
+  font-family: 'Allura', 'Qwigley', cursive;
+  font-size: 18px;
+  padding-left: 1px;
+  margin-top: 3%;
+}
+
+main {
+  width: 90%;
+  max-width: 960px;
+  margin: 150px auto 0px;
+}
+
+#instructions {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+}
+
+h5 {
+  display: inline-block;
+}
+
+input {
+  display: inline-block;
+  margin: 0px 10px;
+  border-radius: 3px;
+}
+
+button {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 3px 10px;
+}
+
+#images {
+  display: inline-block;
+  text-align: center;
+  margin: 0px auto;
+  width: 100%;
+}
+
+.frames {
+  margin: 50px auto 50px;
+  display: inline-block;
+  border: 10px solid blue;
+  width: 30%;
+  height: 300px;
+}
+
+footer {
+  background: bisque;
+  padding: 50px 5% 50px;
+}
+
+
