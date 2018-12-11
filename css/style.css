@@ -95,4 +95,11 @@ footer {
   padding: 50px 5% 50px;
 }
 
+#img1, #img2, #img3 {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto 0px; 
+}
+
 

@@ -26,7 +26,7 @@ new Images('img/boots.jpg', 'rain boots with open toes');
 new Images('img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee');
 new Images('img/bubblegum.jpg', 'italian meatball shaped bubblegum');
 new Images('img/chair.jpg', 'super comfy chair');
-new Images('img/cthulhi.jpg', 'octopus dragon monster');
+new Images('img/cthulhu.jpg', 'octopus dragon monster');
 new Images('img/dog-duck.jpg', 'duck bill muzzle for puppy');
 new Images('img/dragon.jpg', 'can of dragon meat');
 new Images('img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes');
@@ -84,12 +84,17 @@ var counter = -1;
 
 Images.renderImage = function() {
   counter += 1;
-  Images.imageOne.src = Images.totalImagesArray[counter[0]].url;
-  Images.imageOne.alt = Images.totalImagesArray[counter[0]].altText;
-  Images.imageTwo.src = Images.totalImagesArray[counter[1]].url;
-  Images.imageTwo.alt = Images.totalImagesArray[counter[1]].altText;
-  Images.imageThree.src = Images.totalImagesArray[counter[2]].url;
-  Images.imageThree.alt = Images.totalImagesArray[counter[2]].altText;
+  var img1 = Images.totalImagesArray[counter][0];
+  Images.imageOne.src = Images.allImagesArray[img1].url;
+  Images.imageOne.alt = Images.allImagesArray[img1].altText;
+
+  var img2 = Images.totalImagesArray[counter][1];
+  Images.imageTwo.src = Images.allImagesArray[img2].url;
+  Images.imageTwo.alt = Images.allImagesArray[img2].altText;
+
+  var img3 = Images.totalImagesArray[counter][2];
+  Images.imageThree.src = Images.allImagesArray[img3].url;
+  Images.imageThree.alt = Images.allImagesArray[img3].altText;
 
 };
 
