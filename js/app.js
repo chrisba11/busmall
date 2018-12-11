@@ -8,6 +8,7 @@ Images.imageThree = document.getElementById('img3');
 Images.allImagesArray = [];
 Images.currentImageArray = [];
 Images.previousImageArray = [];
+Images.totalImagesArray = [];
 
 // creat constructor
 
@@ -48,32 +49,50 @@ Images.randomNum = function() {
 };
 
 // generate random image array
-
-Images.currentImageArray = function() {
-  var randomIndexOne = Images.randomNum;
-  while (Images.previousImageArray.includes(randomIndexOne)) {
-    randomIndexOne = Images.randomNum;
-  }
-  Images.currentImageArray.push(randomIndexOne);
-  var randomIndexTwo = Images.randomNum;
-  while (randomIndexTwo === randomIndexOne) {
-    randomIndexTwo = Images.randomNum;
+Images.createCurrentImageArray = function() {
+  for (var i = 0; i < 25; i++) {
+    Images.previousImageArray = Images.currentImageArray;
+    Images.currentImageArray = [];
+    var randomIndexOne = Images.randomNum();
+    while (Images.previousImageArray.includes(randomIndexOne)) {
+      randomIndexOne = Images.randomNum();
+    }
+    var randomIndexTwo = Images.randomNum();
     while (Images.previousImageArray.includes(randomIndexTwo)) {
-      randomIndexTwo = Images.randomNum;
+      randomIndexTwo = Images.randomNum();
+      while (randomIndexTwo === randomIndexOne) {
+        randomIndexTwo = Images.randomNum();
+      }
     }
-  }
-  Images.currentImageArray.push(randomIndexTwo);
-  var randomIndexThree = Images.randomNum;
-  while (randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
-    randomIndexThree = Images.randomNum;
+    var randomIndexThree = Images.randomNum();
     while (Images.previousImageArray.includes(randomIndexThree)) {
-      randomIndexThree = Images.randomNum;
+      randomIndexThree = Images.randomNum();
+      while (randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
+        randomIndexThree = Images.randomNum();
+      }
     }
+
+    Images.currentImageArray.push(randomIndexOne);
+    Images.currentImageArray.push(randomIndexTwo);
+    Images.currentImageArray.push(randomIndexThree);
+
+    Images.totalImagesArray.push(Images.currentImageArray);
+
+    // console.log('Previous: ', Images.previousImageArray);
+    // console.log('Current: ', Images.currentImageArray);
   }
-  Images.currentImageArray.push(randomIndexThree);
 };
 
-Images.currentImageArray();
+Images.createCurrentImageArray();
+
+console.log(Images.totalImagesArray);
+
+
+
+
+
+
+
 
 
 
