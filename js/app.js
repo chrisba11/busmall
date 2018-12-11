@@ -1,10 +1,12 @@
 'use strict';
+
 // get image elements by id
 
 Images.imageOne = document.getElementById('img1');
 Images.imageTwo = document.getElementById('img2');
 Images.imageThree = document.getElementById('img3');
 Images.userName = document.getElementsByTagName('input');
+Images.counter = 0;
 
 
 Images.allImagesArray = [];
@@ -24,6 +26,7 @@ function Images(filepath, description) {
 }
 
 // make image instances
+
 Images.bag = new Images('img/bag.jpg', 'bag that looks like R2D2');
 Images.banana = new Images('img/banana.jpg', 'banana slicer');
 Images.bathroom = new Images('img/bathroom.jpg', 'ipad and toilet paper holder');
@@ -49,12 +52,13 @@ Images.wineGlass = new Images('img/wine-glass.jpg', 'best wine glass EVAR!');
 
 Images.randomNum = function() {
   var random = Math.random() * Images.allImagesArray.length;
-  var roundedDown = Math.floor(random);
-  return roundedDown;
+  var randomRoundedDown = Math.floor(random);
+  return randomRoundedDown;
 };
 
 // generate 25 random image arrays that don't repeat with most recent set of 3
-Images.createCurrentImageArray = function() {
+
+Images.generateImageArrays = function() {
   for (var i = 0; i < 25; i++) {
     Images.previousImageArray = Images.currentImageArray;
     Images.currentImageArray = [];
@@ -65,7 +69,7 @@ Images.createCurrentImageArray = function() {
     var randomIndexTwo = Images.randomNum();
     while (Images.previousImageArray.includes(randomIndexTwo) || randomIndexTwo === randomIndexOne) {
       randomIndexTwo = Images.randomNum();
-    
+
     }
     var randomIndexThree = Images.randomNum();
     while (Images.previousImageArray.includes(randomIndexThree) || randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
@@ -80,27 +84,26 @@ Images.createCurrentImageArray = function() {
   }
 };
 
-Images.createCurrentImageArray();
-
+Images.generateImageArrays();
 
 // modify src & alt of images
 
-var counter = -1;
-
-Images.renderImage = function() {
-  counter += 1;
-  if(counter < 25) {
-    var img1 = Images.totalImagesArray[counter][0];
+Images.renderImages = function() {
+  if(Images.counter < 25) {
+    var img1 = Images.totalImagesArray[Images.counter][0];
     Images.imageOne.src = Images.allImagesArray[img1].url;
     Images.imageOne.alt = Images.allImagesArray[img1].altText;
+    Images.allImagesArray[img1].timesDisplayed++;
 
-    var img2 = Images.totalImagesArray[counter][1];
+    var img2 = Images.totalImagesArray[Images.counter][1];
     Images.imageTwo.src = Images.allImagesArray[img2].url;
     Images.imageTwo.alt = Images.allImagesArray[img2].altText;
+    Images.allImagesArray[img2].timesDisplayed++;
 
-    var img3 = Images.totalImagesArray[counter][2];
+    var img3 = Images.totalImagesArray[Images.counter][2];
     Images.imageThree.src = Images.allImagesArray[img3].url;
     Images.imageThree.alt = Images.allImagesArray[img3].altText;
+    Images.allImagesArray[img3].timesDisplayed++;
   } else {
     Images.imageOne.src = 'img/the-end.jpg';
     Images.imageOne.alt = 'That\'s All Folks!';
@@ -110,24 +113,26 @@ Images.renderImage = function() {
 
     Images.imageThree.src = 'img/the-end.jpg';
     Images.imageThree.alt = 'That\'s All Folks!';
+
+    Images.displayChart();
   }
+  Images.counter++;
 
 };
 
-Images.prototype.addClick = function() {
-  this.timesClicked += 1;
+Images.addClick = function(event) {
+  if(Images.counter < 25) {
+    for (var i = 0; i < Images.allImagesArray.length; i++) {
+      if(event.target.src === Images.allImagesArray[i].url) {
+        Images.allImagesArray[i].timesClicked++;
+        console.log('Image clicked:', Images.allImagesArray[i].url);
+      }
+    }
+  }
 };
 
 
-
-
-
-
-
-
-
-Images.renderImage();
-
+// Do I need to remove event listener?
 
 
 
@@ -136,13 +141,45 @@ Images.renderImage();
 
 
 
+Images.renderImages();
 
 
-Images.imageOne.addEventListener('click', Images.renderImage);
-Images.imageTwo.addEventListener('click', Images.renderImage);
-Images.imageThree.addEventListener('click', Images.renderImage);
+
+
+
+
+
+
+
+
+
+Images.imageOne.addEventListener('click', Images.renderImages);
+Images.imageTwo.addEventListener('click', Images.renderImages);
+Images.imageThree.addEventListener('click', Images.renderImages);
 
 Images.imageOne.addEventListener('click', Images.prototype.addClick);
 Images.imageTwo.addEventListener('click', Images.prototype.addClick);
 Images.imageThree.addEventListener('click', Images.prototype.addClick);
 
+Images.displayChart = function() {
+  new CharacterData(Images.chartContext, {
+    type: 'bar',
+    data: {
+      labels: Images.allUrls,
+      dataset: [{
+        label: 
+        data: 
+        backgroundColors: 
+      }],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          tick: {
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  })
+}
