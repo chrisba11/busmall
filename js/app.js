@@ -10,13 +10,14 @@ Images.counter = 0;
 
 
 Images.allImagesArray = [];
-Images.currentImageArray = [];
-Images.previousImageArray = [];
-Images.totalImagesArray = [];
+Images.currentIndexArray = [];
+Images.previousIndexArray = [];
+Images.fullIndexArray = [];
 
-// creat constructor
+// constructor function
 
-function Images(filepath, description) {
+function Images(name, filepath, description) {
+  this.name = name;
   this.url = filepath;
   this.altText = description;
   this.timesClicked = 0;
@@ -27,26 +28,26 @@ function Images(filepath, description) {
 
 // make image instances
 
-Images.bag = new Images('img/bag.jpg', 'bag that looks like R2D2');
-Images.banana = new Images('img/banana.jpg', 'banana slicer');
-Images.bathroom = new Images('img/bathroom.jpg', 'ipad and toilet paper holder');
-Images.boots = new Images('img/boots.jpg', 'rain boots with open toes');
-Images.breakfast = new Images('img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee');
-Images.bubblegum = new Images('img/bubblegum.jpg', 'italian meatball shaped bubblegum');
-Images.chair = new Images('img/chair.jpg', 'super comfy chair');
-Images.cthulhu = new Images('img/cthulhu.jpg', 'octopus dragon monster');
-Images.dogDuck = new Images('img/dog-duck.jpg', 'duck bill muzzle for puppy');
-Images.dragon = new Images('img/dragon.jpg', 'can of dragon meat');
-Images.pen = new Images('img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes');
-Images.petSweet = new Images('img/pet-sweep.jpg', 'dust mops for your pet\'s feet');
-Images.scissors = new Images('img/scissors.jpg', 'scissors to help you cut pizza slices');
-Images.shark = new Images('img/shark.jpg', 'shark sleeping bag');
-Images.sweep = new Images('img/sweep.png', 'onesie for your baby that sweeps the floor as they crawl');
-Images.tauntaun = new Images('img/tauntaun.jpg', 'star wars sleeping bag for nerds');
-Images.unicorn = new Images('img/unicorn.jpg', 'can of unicorn meat: excellent source of sprinkles');
-Images.usb = new Images('img/usb.gif', 'octopus leg usb stick');
-Images.waterCan = new Images('img/water-can.jpg', 'productive plant watering can: self filling');
-Images.wineGlass = new Images('img/wine-glass.jpg', 'best wine glass EVAR!');
+new Images('bag.jpg','img/bag.jpg', 'bag that looks like R2D2');
+new Images('banana.jpg', 'img/banana.jpg', 'banana slicer');
+new Images('bathroom.jpg', 'img/bathroom.jpg', 'ipad and toilet paper holder');
+new Images('boots.jpg', 'img/boots.jpg', 'rain boots with open toes');
+new Images('breakfast.jpg', 'img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee');
+new Images('bubblegum.jpg', 'img/bubblegum.jpg', 'italian meatball shaped bubblegum');
+new Images('chair.jpg', 'img/chair.jpg', 'super comfy chair');
+new Images('cthulhu.jpg', 'img/cthulhu.jpg', 'octopus dragon monster');
+new Images('dog-duck.jpg', 'img/dog-duck.jpg', 'duck bill muzzle for puppy');
+new Images('dragon.jpg', 'img/dragon.jpg', 'can of dragon meat');
+new Images('pen.jpg', 'img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes');
+new Images('pet-sweep.jpg', 'img/pet-sweep.jpg', 'dust mops for your pet\'s feet');
+new Images('scissors.jpg', 'img/scissors.jpg', 'scissors to help you cut pizza slices');
+new Images('shark.jpg', 'img/shark.jpg', 'shark sleeping bag');
+new Images('sweep.png', 'img/sweep.png', 'onesie for your baby that sweeps the floor as they crawl');
+new Images('tauntaun.jpg', 'img/tauntaun.jpg', 'star wars sleeping bag for nerds');
+new Images('unicorn.jpg', 'img/unicorn.jpg', 'can of unicorn meat: excellent source of sprinkles');
+new Images('usb.gif', 'img/usb.gif', 'octopus leg usb stick');
+new Images('water-can.jpg', 'img/water-can.jpg', 'productive plant watering can: self filling');
+new Images('wine-glass.jpg', 'img/wine-glass.jpg', 'best wine glass EVAR!');
 
 // generate random number
 
@@ -60,47 +61,45 @@ Images.randomNum = function() {
 
 Images.generateImageArrays = function() {
   for (var i = 0; i < 25; i++) {
-    Images.previousImageArray = Images.currentImageArray;
-    Images.currentImageArray = [];
+    Images.previousIndexArray = Images.currentIndexArray;
+    Images.currentIndexArray = [];
     var randomIndexOne = Images.randomNum();
-    while (Images.previousImageArray.includes(randomIndexOne)) {
+    while (Images.previousIndexArray.includes(randomIndexOne)) {
       randomIndexOne = Images.randomNum();
     }
     var randomIndexTwo = Images.randomNum();
-    while (Images.previousImageArray.includes(randomIndexTwo) || randomIndexTwo === randomIndexOne) {
+    while (Images.previousIndexArray.includes(randomIndexTwo) || randomIndexTwo === randomIndexOne) {
       randomIndexTwo = Images.randomNum();
 
     }
     var randomIndexThree = Images.randomNum();
-    while (Images.previousImageArray.includes(randomIndexThree) || randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
+    while (Images.previousIndexArray.includes(randomIndexThree) || randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
       randomIndexThree = Images.randomNum();
     }
 
-    Images.currentImageArray.push(randomIndexOne);
-    Images.currentImageArray.push(randomIndexTwo);
-    Images.currentImageArray.push(randomIndexThree);
+    Images.currentIndexArray.push(randomIndexOne);
+    Images.currentIndexArray.push(randomIndexTwo);
+    Images.currentIndexArray.push(randomIndexThree);
 
-    Images.totalImagesArray.push(Images.currentImageArray);
+    Images.fullIndexArray.push(Images.currentIndexArray);
   }
 };
-
-Images.generateImageArrays();
 
 // modify src & alt of images
 
 Images.renderImages = function() {
-  if(Images.counter < 25) {
-    var img1 = Images.totalImagesArray[Images.counter][0];
+  if (Images.counter < 25) {
+    var img1 = Images.fullIndexArray[Images.counter][0];
     Images.imageOne.src = Images.allImagesArray[img1].url;
     Images.imageOne.alt = Images.allImagesArray[img1].altText;
     Images.allImagesArray[img1].timesDisplayed++;
 
-    var img2 = Images.totalImagesArray[Images.counter][1];
+    var img2 = Images.fullIndexArray[Images.counter][1];
     Images.imageTwo.src = Images.allImagesArray[img2].url;
     Images.imageTwo.alt = Images.allImagesArray[img2].altText;
     Images.allImagesArray[img2].timesDisplayed++;
 
-    var img3 = Images.totalImagesArray[Images.counter][2];
+    var img3 = Images.fullIndexArray[Images.counter][2];
     Images.imageThree.src = Images.allImagesArray[img3].url;
     Images.imageThree.alt = Images.allImagesArray[img3].altText;
     Images.allImagesArray[img3].timesDisplayed++;
@@ -114,19 +113,17 @@ Images.renderImages = function() {
     Images.imageThree.src = 'img/the-end.jpg';
     Images.imageThree.alt = 'That\'s All Folks!';
 
-    Images.displayChart();
+    // Images.displayChart();
   }
   Images.counter++;
 
 };
 
 Images.addClick = function(event) {
-  if(Images.counter < 25) {
-    for (var i = 0; i < Images.allImagesArray.length; i++) {
-      if(event.target.src === Images.allImagesArray[i].url) {
-        Images.allImagesArray[i].timesClicked++;
-        console.log('Image clicked:', Images.allImagesArray[i].url);
-      }
+  for (var i = 0; i < Images.allImagesArray.length; i++) {
+    if(event.target.name === Images.allImagesArray[i].name) {
+      Images.allImagesArray[i].timesClicked++;
+      console.log('Image clicked:', Images.allImagesArray[i].url);
     }
   }
 };
@@ -140,46 +137,36 @@ Images.addClick = function(event) {
 
 
 
-
+Images.generateImageArrays();
 Images.renderImages();
 
-
-
-
-
-
-
-
-
-
+Images.imageOne.addEventListener('click', Images.addClick);
+Images.imageTwo.addEventListener('click', Images.addClick);
+Images.imageThree.addEventListener('click', Images.addClick);
 
 Images.imageOne.addEventListener('click', Images.renderImages);
 Images.imageTwo.addEventListener('click', Images.renderImages);
 Images.imageThree.addEventListener('click', Images.renderImages);
 
-Images.imageOne.addEventListener('click', Images.prototype.addClick);
-Images.imageTwo.addEventListener('click', Images.prototype.addClick);
-Images.imageThree.addEventListener('click', Images.prototype.addClick);
-
-Images.displayChart = function() {
-  new CharacterData(Images.chartContext, {
-    type: 'bar',
-    data: {
-      labels: Images.allUrls,
-      dataset: [{
-        label: 
-        data: 
-        backgroundColors: 
-      }],
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          tick: {
-            beginAtZero: true,
-          }
-        }]
-      }
-    }
-  })
-}
+// Images.displayChart = function() {
+//   new CharacterData(Images.chartContext, {
+//     type: 'bar',
+//     data: {
+//       labels: Images.allUrls,
+//       dataset: [{
+//         label: 
+//         data: 
+//         backgroundColors: 
+//       }],
+//     },
+//     options: {
+//       scales: {
+//         yAxes: [{
+//           tick: {
+//             beginAtZero: true,
+//           }
+//         }]
+//       }
+//     }
+//   })
+// }
