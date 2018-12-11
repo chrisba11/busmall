@@ -48,7 +48,7 @@ Images.randomNum = function() {
   return roundedDown;
 };
 
-// generate random image array
+// generate 25 random image arrays that don't repeat with most recent set of 3
 Images.createCurrentImageArray = function() {
   for (var i = 0; i < 25; i++) {
     Images.previousImageArray = Images.currentImageArray;
@@ -58,18 +58,13 @@ Images.createCurrentImageArray = function() {
       randomIndexOne = Images.randomNum();
     }
     var randomIndexTwo = Images.randomNum();
-    while (Images.previousImageArray.includes(randomIndexTwo)) {
+    while (Images.previousImageArray.includes(randomIndexTwo) || randomIndexTwo === randomIndexOne) {
       randomIndexTwo = Images.randomNum();
-      while (randomIndexTwo === randomIndexOne) {
-        randomIndexTwo = Images.randomNum();
-      }
+    
     }
     var randomIndexThree = Images.randomNum();
-    while (Images.previousImageArray.includes(randomIndexThree)) {
+    while (Images.previousImageArray.includes(randomIndexThree) || randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
       randomIndexThree = Images.randomNum();
-      while (randomIndexThree === randomIndexOne || randomIndexThree === randomIndexTwo) {
-        randomIndexThree = Images.randomNum();
-      }
     }
 
     Images.currentImageArray.push(randomIndexOne);
@@ -77,46 +72,29 @@ Images.createCurrentImageArray = function() {
     Images.currentImageArray.push(randomIndexThree);
 
     Images.totalImagesArray.push(Images.currentImageArray);
-
-    // console.log('Previous: ', Images.previousImageArray);
-    // console.log('Current: ', Images.currentImageArray);
   }
 };
 
 Images.createCurrentImageArray();
 
-console.log(Images.totalImagesArray);
 
+// modify src & alt of images
 
+var counter = -1;
 
+Images.renderImage = function() {
+  counter += 1;
+  Images.imageOne.src = Images.totalImagesArray[counter[0]].url;
+  Images.imageOne.alt = Images.totalImagesArray[counter[0]].altText;
+  Images.imageTwo.src = Images.totalImagesArray[counter[1]].url;
+  Images.imageTwo.alt = Images.totalImagesArray[counter[1]].altText;
+  Images.imageThree.src = Images.totalImagesArray[counter[2]].url;
+  Images.imageThree.alt = Images.totalImagesArray[counter[2]].altText;
 
+};
 
+Images.renderImage();
 
-
-
-
-
-// // modify src & alt of images
-
-// Images.renderImage = function() {
-
-//   var randomImageOne = Images.allImagesArray[randomIndexOne];
-//   var randomImageTwo = Images.allImagesArray[randomIndexTwo];
-//   var randomImageThree = Images.allImagesArray[randomIndexThree];
-
-//   // get element
-//   Images.imageOne.src = randomImageOne.url;
-//   Images.imageOne.alt = randomImageOne.altText;
-//   Images.imageTwo.src = randomImageTwo.url;
-//   Images.imageTwo.alt = randomImageTwo.altText;
-//   Images.imageThree.src = randomImageThree.url;
-//   Images.imageThree.alt = randomImageThree.altText;
-
-//   Images.currentImageArray = [];
-//   Images.currentImageArray.push(randomIndexOne, randomIndexTwo, randomIndexThree);
-
-//   console.log('Previous Array: ', Images.previousImageArray);
-//   console.log('Current Array: ', Images.currentImageArray);
-// };
-
-// Images.renderImage();
+Images.imageOne.addEventListener('click', Images.renderImage);
+Images.imageTwo.addEventListener('click', Images.renderImage);
+Images.imageThree.addEventListener('click', Images.renderImage);
