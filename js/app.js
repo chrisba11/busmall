@@ -6,6 +6,7 @@ Images.imageOne = document.getElementById('img1');
 Images.imageTwo = document.getElementById('img2');
 Images.imageThree = document.getElementById('img3');
 Images.userName = document.getElementsByTagName('input');
+Images.chart = document.getElementById('results-chart');
 Images.counter = 0;
 Images.allNames = [];
 Images.allVotes = [];
@@ -129,7 +130,7 @@ Images.renderImages = function() {
     Images.imageTwo.removeEventListener('click', Images.renderImages);
     Images.imageThree.removeEventListener('click', Images.renderImages);
 
-    
+
     Images.displayChart();
   }
   Images.counter++;
@@ -141,7 +142,6 @@ Images.addClick = function(event) {
     for (var i = 0; i < Images.allImagesArray.length; i++) {
       if(event.target.name === Images.allImagesArray[i].name) {
         Images.allImagesArray[i].timesClicked++;
-        console.log('Image clicked:', Images.allImagesArray[i].name);
       }
     }
   }
@@ -166,7 +166,7 @@ Images.renderResults = function() {
       liEl.textContent = `${thisImage.name} was not displayed in this round of testing.`;
     }
     ulEl.appendChild(liEl);
-    Images.allVotes.push(this.timesClicked);
+    Images.allVotes.push(thisImage.timesClicked);
   }
 
 
@@ -191,8 +191,8 @@ Images.imageThree.addEventListener('click', Images.renderImages);
 
 
 Images.displayChart = function() {
-  new Chart(Images.chartContext, {
-    type: 'doughnut',
+  new Chart(Images.chart, {
+    type: 'bar',
     data: {
       labels: Images.allNames,
       dataset: [{
@@ -204,7 +204,7 @@ Images.displayChart = function() {
     options: {
       scales: {
         yAxes: [{
-          tick: {
+          ticks: {
             beginAtZero: true,
           }
         }]
@@ -212,3 +212,4 @@ Images.displayChart = function() {
     }
   });
 };
+
