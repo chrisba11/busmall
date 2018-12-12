@@ -22,7 +22,7 @@ function Images(name, filepath, description) {
   this.altText = description;
   this.timesClicked = 0;
   this.timesDisplayed = 0;
-  this.percentPref = this.url + ' was preferred ' + this.timesClicked / this.timesDisplayed * 100 + ' percent of the time.';
+  this.percentPref = 0;
   Images.allImagesArray.push(this);
 }
 
@@ -90,16 +90,19 @@ Images.generateImageArrays = function() {
 Images.renderImages = function() {
   if (Images.counter < 25) {
     var img1 = Images.fullIndexArray[Images.counter][0];
+    Images.imageOne.name = Images.allImagesArray[img1].name;
     Images.imageOne.src = Images.allImagesArray[img1].url;
     Images.imageOne.alt = Images.allImagesArray[img1].altText;
     Images.allImagesArray[img1].timesDisplayed++;
 
     var img2 = Images.fullIndexArray[Images.counter][1];
+    Images.imageTwo.name = Images.allImagesArray[img2].name;
     Images.imageTwo.src = Images.allImagesArray[img2].url;
     Images.imageTwo.alt = Images.allImagesArray[img2].altText;
     Images.allImagesArray[img2].timesDisplayed++;
 
     var img3 = Images.fullIndexArray[Images.counter][2];
+    Images.imageThree.name = Images.allImagesArray[img3].name;
     Images.imageThree.src = Images.allImagesArray[img3].url;
     Images.imageThree.alt = Images.allImagesArray[img3].altText;
     Images.allImagesArray[img3].timesDisplayed++;
@@ -120,10 +123,12 @@ Images.renderImages = function() {
 };
 
 Images.addClick = function(event) {
-  for (var i = 0; i < Images.allImagesArray.length; i++) {
-    if(event.target.name === Images.allImagesArray[i].name) {
-      Images.allImagesArray[i].timesClicked++;
-      console.log('Image clicked:', Images.allImagesArray[i].url);
+  if (Images.counter < 25) {
+    for (var i = 0; i < Images.allImagesArray.length; i++) {
+      if(event.target.name === Images.allImagesArray[i].name) {
+        Images.allImagesArray[i].timesClicked++;
+        console.log('Image clicked:', Images.allImagesArray[i].name);
+      }
     }
   }
 };
@@ -147,6 +152,8 @@ Images.imageThree.addEventListener('click', Images.addClick);
 Images.imageOne.addEventListener('click', Images.renderImages);
 Images.imageTwo.addEventListener('click', Images.renderImages);
 Images.imageThree.addEventListener('click', Images.renderImages);
+
+
 
 // Images.displayChart = function() {
 //   new CharacterData(Images.chartContext, {
