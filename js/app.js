@@ -10,9 +10,8 @@ Images.chart = document.getElementById('results-chart');
 Images.counter = 0;
 Images.allNames = [];
 Images.allVotes = [];
-
-
-Images.allImagesArray = [];
+Images.totalPercent = [];
+Images.displayedPerRound = 25;
 Images.currentIndexArray = [];
 Images.previousIndexArray = [];
 Images.fullIndexArray = [];
@@ -26,32 +25,33 @@ function Images(name, filepath, description) {
   this.timesClicked = 0;
   this.timesDisplayed = 0;
   this.percentPref = 0;
-  Images.allImagesArray.push(this);
   Images.allNames.push(this.name);
 }
 
 // make image instances
 
-new Images('bag.jpg','img/bag.jpg', 'bag that looks like R2D2');
-new Images('banana.jpg', 'img/banana.jpg', 'banana slicer');
-new Images('bathroom.jpg', 'img/bathroom.jpg', 'ipad and toilet paper holder');
-new Images('boots.jpg', 'img/boots.jpg', 'rain boots with open toes');
-new Images('breakfast.jpg', 'img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee');
-new Images('bubblegum.jpg', 'img/bubblegum.jpg', 'italian meatball shaped bubblegum');
-new Images('chair.jpg', 'img/chair.jpg', 'super comfy chair');
-new Images('cthulhu.jpg', 'img/cthulhu.jpg', 'octopus dragon monster');
-new Images('dog-duck.jpg', 'img/dog-duck.jpg', 'duck bill muzzle for puppy');
-new Images('dragon.jpg', 'img/dragon.jpg', 'can of dragon meat');
-new Images('pen.jpg', 'img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes');
-new Images('pet-sweep.jpg', 'img/pet-sweep.jpg', 'dust mops for your pet\'s feet');
-new Images('scissors.jpg', 'img/scissors.jpg', 'scissors to help you cut pizza slices');
-new Images('shark.jpg', 'img/shark.jpg', 'shark sleeping bag');
-new Images('sweep.png', 'img/sweep.png', 'onesie for your baby that sweeps the floor as they crawl');
-new Images('tauntaun.jpg', 'img/tauntaun.jpg', 'star wars sleeping bag for nerds');
-new Images('unicorn.jpg', 'img/unicorn.jpg', 'can of unicorn meat: excellent source of sprinkles');
-new Images('usb.gif', 'img/usb.gif', 'octopus leg usb stick');
-new Images('water-can.jpg', 'img/water-can.jpg', 'productive plant watering can: self filling');
-new Images('wine-glass.jpg', 'img/wine-glass.jpg', 'best wine glass EVAR!');
+Images.allImagesArray = [
+  new Images('bag.jpg','img/bag.jpg', 'bag that looks like R2D2'),
+  new Images('banana.jpg', 'img/banana.jpg', 'banana slicer'),
+  new Images('bathroom.jpg', 'img/bathroom.jpg', 'ipad and toilet paper holder'),
+  new Images('boots.jpg', 'img/boots.jpg', 'rain boots with open toes'),
+  new Images('breakfast.jpg', 'img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee'),
+  new Images('bubblegum.jpg', 'img/bubblegum.jpg', 'italian meatball shaped bubblegum'),
+  new Images('chair.jpg', 'img/chair.jpg', 'super comfy chair'),
+  new Images('cthulhu.jpg', 'img/cthulhu.jpg', 'octopus dragon monster'),
+  new Images('dog-duck.jpg', 'img/dog-duck.jpg', 'duck bill muzzle for puppy'),
+  new Images('dragon.jpg', 'img/dragon.jpg', 'can of dragon meat'),
+  new Images('pen.jpg', 'img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes'),
+  new Images('pet-sweep.jpg', 'img/pet-sweep.jpg', 'dust mops for your pet\'s feet'),
+  new Images('scissors.jpg', 'img/scissors.jpg', 'scissors to help you cut pizza slices'),
+  new Images('shark.jpg', 'img/shark.jpg', 'shark sleeping bag'),
+  new Images('sweep.png', 'img/sweep.png', 'onesie for your baby that sweeps the floor as they crawl'),
+  new Images('tauntaun.jpg', 'img/tauntaun.jpg', 'star wars sleeping bag for nerds'),
+  new Images('unicorn.jpg', 'img/unicorn.jpg', 'can of unicorn meat: excellent source of sprinkles'),
+  new Images('usb.gif', 'img/usb.gif', 'octopus leg usb stick'),
+  new Images('water-can.jpg', 'img/water-can.jpg', 'productive plant watering can: self filling'),
+  new Images('wine-glass.jpg', 'img/wine-glass.jpg', 'best wine glass EVAR!'),
+];
 
 // generate random number
 
@@ -64,7 +64,7 @@ Images.randomNum = function() {
 // generate 25 random image arrays that don't repeat with most recent set of 3
 
 Images.generateImageArrays = function() {
-  for (var i = 0; i < 25; i++) {
+  for (var i = 0; i < Images.displayedPerRound; i++) {
     Images.previousIndexArray = Images.currentIndexArray;
     Images.currentIndexArray = [];
     var randomIndexOne = Images.randomNum();
@@ -92,7 +92,7 @@ Images.generateImageArrays = function() {
 // modify src & alt of images
 
 Images.renderImages = function() {
-  if (Images.counter < 25) {
+  if (Images.counter < Images.displayedPerRound) {
     var img1 = Images.fullIndexArray[Images.counter][0];
     Images.imageOne.name = Images.allImagesArray[img1].name;
     Images.imageOne.src = Images.allImagesArray[img1].url;
@@ -138,7 +138,7 @@ Images.renderImages = function() {
 };
 
 Images.addClick = function(event) {
-  if (Images.counter < 25) {
+  if (Images.counter < Images.displayedPerRound) {
     for (var i = 0; i < Images.allImagesArray.length; i++) {
       if(event.target.name === Images.allImagesArray[i].name) {
         Images.allImagesArray[i].timesClicked++;
@@ -192,13 +192,13 @@ Images.imageThree.addEventListener('click', Images.renderImages);
 
 Images.displayChart = function() {
   new Chart(Images.chart, {
-    type: 'bar',
+    type: 'doughnut',
     data: {
       labels: Images.allNames,
-      dataset: [{
+      datasets: [{
         label: 'Votes Per Image',
         data: Images.allVotes,
-        backgroundColor: ['#FFF', '#FFE', '#FFD', '#FFC', '#FFB', '#FFA', '#FF9', '#FF8', '#FF7', '#FF6', '#FF5', '#FF4', '#FF3', '#FF2', '#FF1', '#FF0', '#FEF', '#FEE', '#FED', '#FEC'],
+        backgroundColor: ['rgb(255,204,204)', 'rgb(255,229,204)', 'rgb(255,255,204)', 'rgb(229,255,204)', 'rgb(204,255,204)', 'rgb(204,255,229)', 'rgb(204,255,255)', 'rgb(204,229,255)', 'rgb(204,204,255)', 'rgb(229,204,255)', 'rgb(255,204,255)', 'rgb(255,204,229)', 'rgb(255,102,102)', 'rgb(255,178,102)', 'rgb(255,255,102)', 'rgb(178,255,102)', 'rgb(102,255,255)', 'rgb(102,178,255)', 'rgb(178,102,255)', 'rgb(255,102,255)']
       }],
     },
     options: {
@@ -206,6 +206,13 @@ Images.displayChart = function() {
         yAxes: [{
           ticks: {
             beginAtZero: true,
+            stepSize: 1,
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            stepSize: 1,
+            autoSkip: false,
           }
         }]
       }
@@ -213,3 +220,6 @@ Images.displayChart = function() {
   });
 };
 
+
+
+// remember to put a flag in
