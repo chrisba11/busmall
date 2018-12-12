@@ -7,6 +7,8 @@ Images.imageTwo = document.getElementById('img2');
 Images.imageThree = document.getElementById('img3');
 Images.userName = document.getElementsByTagName('input');
 Images.counter = 0;
+Images.allNames = [];
+Images.allVotes = [];
 
 
 Images.allImagesArray = [];
@@ -24,6 +26,7 @@ function Images(name, filepath, description) {
   this.timesDisplayed = 0;
   this.percentPref = 0;
   Images.allImagesArray.push(this);
+  Images.allNames.push(this.name);
 }
 
 // make image instances
@@ -127,7 +130,7 @@ Images.renderImages = function() {
     Images.imageThree.removeEventListener('click', Images.renderImages);
 
     
-    // Images.displayChart();
+    Images.displayChart();
   }
   Images.counter++;
 
@@ -163,6 +166,7 @@ Images.renderResults = function() {
       liEl.textContent = `${thisImage.name} was not displayed in this round of testing.`;
     }
     ulEl.appendChild(liEl);
+    Images.allVotes.push(this.timesClicked);
   }
 
 
@@ -186,25 +190,25 @@ Images.imageThree.addEventListener('click', Images.renderImages);
 
 
 
-// Images.displayChart = function() {
-//   new CharacterData(Images.chartContext, {
-//     type: 'bar',
-//     data: {
-//       labels: Images.allUrls,
-//       dataset: [{
-//         label: 
-//         data: 
-//         backgroundColors: 
-//       }],
-//     },
-//     options: {
-//       scales: {
-//         yAxes: [{
-//           tick: {
-//             beginAtZero: true,
-//           }
-//         }]
-//       }
-//     }
-//   })
-// }
+Images.displayChart = function() {
+  new Chart(Images.chartContext, {
+    type: 'doughnut',
+    data: {
+      labels: Images.allNames,
+      dataset: [{
+        label: 'Votes Per Image',
+        data: Images.allVotes,
+        backgroundColor: ['#FFF', '#FFE', '#FFD', '#FFC', '#FFB', '#FFA', '#FF9', '#FF8', '#FF7', '#FF6', '#FF5', '#FF4', '#FF3', '#FF2', '#FF1', '#FF0', '#FEF', '#FEE', '#FED', '#FEC'],
+      }],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          tick: {
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  });
+};
