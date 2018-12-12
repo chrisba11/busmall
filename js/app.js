@@ -116,6 +116,8 @@ Images.renderImages = function() {
     Images.imageThree.src = 'img/the-end.jpg';
     Images.imageThree.alt = 'That\'s All Folks!';
 
+    Images.renderResults();
+
     // Images.displayChart();
   }
   Images.counter++;
@@ -134,8 +136,19 @@ Images.addClick = function(event) {
 };
 
 
-// Do I need to remove event listener?
+// render results list
 
+Images.renderResults = function() {
+  var container = document.getElementById('results');
+  var ulEl = document.createElement('ul');
+  var liEl = document.createElement('li');
+
+  for (var i = 0; i < Images.allImagesArray.length; i++) {
+    liEl.textContent = `${Images.allImagesArray[i].name} was picked ${Images.allImagesArray[i].timesClicked} times.`;
+    ulEl.appendChild(liEl);
+  }
+  container.appendChild(ulEl);
+};
 
 
 

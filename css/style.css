@@ -115,6 +115,10 @@ main {
   margin-right: 0px;
 }
 
+#results {
+  margin-bottom: 150px;
+}
+
 footer {
   background: bisque;
   padding: 50px 5% 50px;
