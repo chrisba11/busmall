@@ -117,7 +117,16 @@ Images.renderImages = function() {
     Images.imageThree.alt = 'That\'s All Folks!';
 
     Images.renderResults();
+    
+    Images.imageOne.removeEventListener('click', Images.addClick);
+    Images.imageTwo.removeEventListener('click', Images.addClick);
+    Images.imageThree.removeEventListener('click', Images.addClick);
 
+    Images.imageOne.removeEventListener('click', Images.renderImages);
+    Images.imageTwo.removeEventListener('click', Images.renderImages);
+    Images.imageThree.removeEventListener('click', Images.renderImages);
+
+    
     // Images.displayChart();
   }
   Images.counter++;
@@ -139,15 +148,24 @@ Images.addClick = function(event) {
 // render results list
 
 Images.renderResults = function() {
-  var container = document.getElementById('results');
-  var ulEl = document.createElement('ul');
-  var liEl = document.createElement('li');
+  var header = document.getElementById('results-header');
+  var ulEl = document.getElementById('results');
+
+  header.textContent = 'Here are the results!';
 
   for (var i = 0; i < Images.allImagesArray.length; i++) {
-    liEl.textContent = `${Images.allImagesArray[i].name} was picked ${Images.allImagesArray[i].timesClicked} times.`;
+    var thisImage = Images.allImagesArray[i];
+    thisImage.percentPref = Math.floor(thisImage.timesClicked / thisImage.timesDisplayed * 100);
+    var liEl = document.createElement('li');
+    if (!isNaN(thisImage.percentPref)) {
+      liEl.textContent = `${thisImage.name} was preferred ${thisImage.timesClicked} times or ${thisImage.percentPref}% of the time it was displayed.`;
+    } else {
+      liEl.textContent = `${thisImage.name} was not displayed in this round of testing.`;
+    }
     ulEl.appendChild(liEl);
   }
-  container.appendChild(ulEl);
+
+
 };
 
 
