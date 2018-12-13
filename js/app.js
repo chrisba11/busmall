@@ -154,12 +154,18 @@ Images.addClick = function(event) {
 // render results list
 
 Images.renderResults = function() {
+
+  if (Images.parsedItemsFromLocalStorage) {
+    for (var i = 0; i < Images.parsedItemsFromLocalStorage.length; i++) {
+      Images.allNames.push(Images.parsedItemsFromLocalStorage[i].name);
+    }
+  }
   var header = document.getElementById('results-header');
   var ulEl = document.getElementById('results-list');
 
   header.textContent = 'Here are the results!';
 
-  for (var i = 0; i < Images.allImagesArray.length; i++) {
+  for (i = 0; i < Images.allImagesArray.length; i++) {
     var thisImage = Images.allImagesArray[i];
     thisImage.percentPref = Math.floor(thisImage.timesClicked / thisImage.timesDisplayed * 100);
     var liEl = document.createElement('li');
