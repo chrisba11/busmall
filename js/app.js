@@ -222,8 +222,6 @@ Images.displayChart = function() {
           },
           ticks: {
             display: false,
-            // beginAtZero: true,
-            // stepSize: 1,
           }
         }],
         xAxes: [{
@@ -232,8 +230,6 @@ Images.displayChart = function() {
           },
           ticks: {
             display: false,
-            // stepSize: 1,
-            // autoSkip: false,
           }
         }]
       }
