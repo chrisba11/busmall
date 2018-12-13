@@ -1,20 +1,23 @@
 'use strict';
 
-// get image elements by id
+// "global" variables
 
-Images.imageOne = document.getElementById('img1');
-Images.imageTwo = document.getElementById('img2');
-Images.imageThree = document.getElementById('img3');
-Images.userName = document.getElementsByTagName('input');
-Images.chart = document.getElementById('results-chart');
-Images.counter = 0;
-Images.allNames = [];
-Images.allVotes = [];
-Images.totalPercent = [];
-Images.displayedPerRound = 25;
-Images.currentIndexArray = [];
-Images.previousIndexArray = [];
-Images.fullIndexArray = [];
+Images.variableArray = [
+  Images.imageOne = document.getElementById('img1'),
+  Images.imageTwo = document.getElementById('img2'),
+  Images.imageThree = document.getElementById('img3'),
+  Images.userName = document.getElementsByTagName('input'),
+  Images.chart = document.getElementById('results-chart'),
+  Images.counter = 0,
+  Images.allNames = [],
+  Images.allVotes = [],
+  Images.totalPercent = [],
+  Images.displayedPerRound = 25,
+  Images.currentIndexArray = [],
+  Images.previousIndexArray = [],
+  Images.fullIndexArray = [],
+  Images.parsedItemsFromLocalStorage = JSON.parse(localStorage.getItem('userResults')),
+];
 
 // constructor function
 
@@ -30,7 +33,7 @@ function Images(name, filepath, description) {
 
 // make image instances
 
-Images.allImagesArray = [
+Images.allImagesArray = Images.parsedItemsFromLocalStorage || [
   new Images('bag.jpg','img/bag.jpg', 'bag that looks like R2D2'),
   new Images('banana.jpg', 'img/banana.jpg', 'banana slicer'),
   new Images('bathroom.jpg', 'img/bathroom.jpg', 'ipad and toilet paper holder'),
@@ -89,7 +92,7 @@ Images.generateImageArrays = function() {
   }
 };
 
-// modify src & alt of images
+// modify name, src & alt of images & render results and chart
 
 Images.renderImages = function() {
   if (Images.counter < Images.displayedPerRound) {
@@ -121,7 +124,7 @@ Images.renderImages = function() {
     Images.imageThree.alt = 'That\'s All Folks!';
 
     Images.renderResults();
-    
+
     Images.imageOne.removeEventListener('click', Images.addClick);
     Images.imageTwo.removeEventListener('click', Images.addClick);
     Images.imageThree.removeEventListener('click', Images.addClick);
@@ -130,12 +133,13 @@ Images.renderImages = function() {
     Images.imageTwo.removeEventListener('click', Images.renderImages);
     Images.imageThree.removeEventListener('click', Images.renderImages);
 
-
     Images.displayChart();
   }
-  Images.counter++;
 
+  Images.counter++;
 };
+
+// get details from image clicked to adjust counter per image
 
 Images.addClick = function(event) {
   if (Images.counter < Images.displayedPerRound) {
@@ -147,16 +151,21 @@ Images.addClick = function(event) {
   }
 };
 
-
 // render results list
 
 Images.renderResults = function() {
+
+  if (Images.parsedItemsFromLocalStorage) {
+    for (var i = 0; i < Images.parsedItemsFromLocalStorage.length; i++) {
+      Images.allNames.push(Images.parsedItemsFromLocalStorage[i].name);
+    }
+  }
   var header = document.getElementById('results-header');
-  var ulEl = document.getElementById('results');
+  var ulEl = document.getElementById('results-list');
 
   header.textContent = 'Here are the results!';
 
-  for (var i = 0; i < Images.allImagesArray.length; i++) {
+  for (i = 0; i < Images.allImagesArray.length; i++) {
     var thisImage = Images.allImagesArray[i];
     thisImage.percentPref = Math.floor(thisImage.timesClicked / thisImage.timesDisplayed * 100);
     var liEl = document.createElement('li');
@@ -167,18 +176,19 @@ Images.renderResults = function() {
     }
     ulEl.appendChild(liEl);
     Images.allVotes.push(thisImage.timesClicked);
+    localStorage.userResults = JSON.stringify(Images.allImagesArray);
   }
 
 
 };
 
-
-
-
-
-
+// produce nested arrays of random indexes
 Images.generateImageArrays();
+
+// render first set of images
 Images.renderImages();
+
+// event listeners
 
 Images.imageOne.addEventListener('click', Images.addClick);
 Images.imageTwo.addEventListener('click', Images.addClick);
@@ -188,10 +198,13 @@ Images.imageOne.addEventListener('click', Images.renderImages);
 Images.imageTwo.addEventListener('click', Images.renderImages);
 Images.imageThree.addEventListener('click', Images.renderImages);
 
-
+// chart function
 
 Images.displayChart = function() {
-  new Chart(Images.chart, {
+
+  if (Images.resultsChart) Images.resultsChart.destroy();
+
+  Images.resultsChart = new Chart(Images.chart, {
     type: 'doughnut',
     data: {
       labels: Images.allNames,
@@ -204,15 +217,19 @@ Images.displayChart = function() {
     options: {
       scales: {
         yAxes: [{
+          gridLines: {
+            display: false,
+          },
           ticks: {
-            beginAtZero: true,
-            stepSize: 1,
+            display: false,
           }
         }],
         xAxes: [{
+          gridLines: {
+            display: false,
+          },
           ticks: {
-            stepSize: 1,
-            autoSkip: false,
+            display: false,
           }
         }]
       }
@@ -221,5 +238,3 @@ Images.displayChart = function() {
 };
 
 
-
-// remember to put a flag in

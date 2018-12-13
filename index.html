@@ -16,9 +16,9 @@
         <h2>Market Research</h2>
       </section>
       <section id="welcome">
-        <h5>Thank you for volunteering for our study. What is your name?</h5>
-        <input type="text" name="" id="">
-        <button>Submit</button>
+        <p>Thank you for volunteering for our study. Below you will see a group of three images. Please click the one you would be most interested in purchasing out of the three. You will go through 25 sets of images to complete this round of testing. Feel free to come back any time to complete the test again.</p>
+        <!-- <input type="text" name="" id="">
+        <button>Submit</button> -->
       </section>
     </header>
     <main>
@@ -34,14 +34,18 @@
           <img id="img3" src="" alt="" name="">
         </div> 
       </section>
-      <section id="results-list">
-        <h4 id="results-header"></h4>
-        <ul id="results"></ul>
-      </section>
-      <canvas id="results-chart" width="400"></canvas>
+      <section id="results">
+        <section>
+          <h4 id="results-header"></h4>
+          <ul id="results-list"></ul>
+        </section>
+        <section id="canvas">
+          <canvas id="results-chart" width="400" height="500"></canvas>
+        </section>
+      </section> 
     </main>
     <footer>
-      <p id="user-feedback">Let's Get Started</p>
+      <p id="user-feedback"></p>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="js/app.js"></script>
