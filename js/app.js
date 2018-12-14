@@ -34,26 +34,26 @@ function Images(name, filepath, description) {
 // make image instances
 
 Images.allImagesArray = Images.parsedItemsFromLocalStorage || [
-  new Images('bag.jpg','img/bag.jpg', 'bag that looks like R2D2'),
-  new Images('banana.jpg', 'img/banana.jpg', 'banana slicer'),
-  new Images('bathroom.jpg', 'img/bathroom.jpg', 'ipad and toilet paper holder'),
-  new Images('boots.jpg', 'img/boots.jpg', 'rain boots with open toes'),
-  new Images('breakfast.jpg', 'img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee'),
-  new Images('bubblegum.jpg', 'img/bubblegum.jpg', 'italian meatball shaped bubblegum'),
-  new Images('chair.jpg', 'img/chair.jpg', 'super comfy chair'),
-  new Images('cthulhu.jpg', 'img/cthulhu.jpg', 'octopus dragon monster'),
-  new Images('dog-duck.jpg', 'img/dog-duck.jpg', 'duck bill muzzle for puppy'),
-  new Images('dragon.jpg', 'img/dragon.jpg', 'can of dragon meat'),
-  new Images('pen.jpg', 'img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes'),
-  new Images('pet-sweep.jpg', 'img/pet-sweep.jpg', 'dust mops for your pet\'s feet'),
-  new Images('scissors.jpg', 'img/scissors.jpg', 'scissors to help you cut pizza slices'),
-  new Images('shark.jpg', 'img/shark.jpg', 'shark sleeping bag'),
-  new Images('sweep.png', 'img/sweep.png', 'onesie for your baby that sweeps the floor as they crawl'),
-  new Images('tauntaun.jpg', 'img/tauntaun.jpg', 'star wars sleeping bag for nerds'),
-  new Images('unicorn.jpg', 'img/unicorn.jpg', 'can of unicorn meat: excellent source of sprinkles'),
-  new Images('usb.gif', 'img/usb.gif', 'octopus leg usb stick'),
-  new Images('water-can.jpg', 'img/water-can.jpg', 'productive plant watering can: self filling'),
-  new Images('wine-glass.jpg', 'img/wine-glass.jpg', 'best wine glass EVAR!'),
+  new Images('bag.jpg        ','img/bag.jpg', 'bag that looks like R2D2'),
+  new Images('banana.jpg     ', 'img/banana.jpg', 'banana slicer'),
+  new Images('bathroom.jpg   ', 'img/bathroom.jpg', 'ipad and toilet paper holder'),
+  new Images('boots.jpg      ', 'img/boots.jpg', 'rain boots with open toes'),
+  new Images('breakfast.jpg  ', 'img/breakfast.jpg', 'all-in-one breakfast maker; eggs, bacon, toast, and coffee'),
+  new Images('bubblegum.jpg  ', 'img/bubblegum.jpg', 'italian meatball shaped bubblegum'),
+  new Images('chair.jpg      ', 'img/chair.jpg', 'super comfy chair'),
+  new Images('cthulhu.jpg    ', 'img/cthulhu.jpg', 'octopus dragon monster'),
+  new Images('dog-duck.jpg   ', 'img/dog-duck.jpg', 'duck bill muzzle for puppy'),
+  new Images('dragon.jpg     ', 'img/dragon.jpg', 'can of dragon meat'),
+  new Images('pen.jpg        ', 'img/pen.jpg', 'utensil pen lids; spoon, fork, and knife shapes'),
+  new Images('pet-sweep.jpg  ', 'img/pet-sweep.jpg', 'dust mops for your pet\'s feet'),
+  new Images('scissors.jpg   ', 'img/scissors.jpg', 'scissors to help you cut pizza slices'),
+  new Images('shark.jpg      ', 'img/shark.jpg', 'shark sleeping bag'),
+  new Images('sweep.png      ', 'img/sweep.png', 'onesie for your baby that sweeps the floor as they crawl'),
+  new Images('tauntaun.jpg   ', 'img/tauntaun.jpg', 'star wars sleeping bag for nerds'),
+  new Images('unicorn.jpg    ', 'img/unicorn.jpg', 'can of unicorn meat: excellent source of sprinkles'),
+  new Images('usb.gif        ', 'img/usb.gif', 'octopus leg usb stick'),
+  new Images('water-can.jpg  ', 'img/water-can.jpg', 'productive plant watering can: self filling'),
+  new Images('wine-glass.jpg ', 'img/wine-glass.jpg', 'best wine glass EVAR!'),
 ];
 
 // generate random number
@@ -215,6 +215,14 @@ Images.displayChart = function() {
       }],
     },
     options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontFamily: "'Nova Mono', monospace",
+          fontSize: 10,
+
+        },
+      },
       scales: {
         yAxes: [{
           gridLines: {
